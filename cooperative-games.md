@@ -2,7 +2,7 @@
 
 ## Cooperative Games
 
-Players divide into coalitions to perform takss. Within a coalition, members can freely divide profits. The question is how should the profits be divided?
+Players divide into coalitions to perform tasks. Within a coalition, members can freely divide profits. The question is how should the profits be divided?
 
 ### Induced Subgraph Games
 
@@ -135,7 +135,7 @@ Let’s prove the theorem.
   * And since there are no negative cuts, the last expression shows that $$\phi(S) \geq v(S)$$.
   * Efficiency is also obvious from this expression, because we can just set $$S=N$$.
 * ($$\implies$$) If the core is not empty, the graph has no negative cut.
-  * Instead, we prove (the contrapositive) that if the graph has a negative cut, then the core cannot be empty.
+  * Instead, we prove (the contrapositive) that if the graph has a negative cut, then the core must be empty.
   * Suppose there is some negative cut, i.e., $$S \subseteq N$$ such that $$\sum_{i \in S} \sum_{j \in N \setminus S} w(i, j) < 0$$.
   *   Take any payoff vector $$\vec x$$ satisfying efficiency; then we have:
 
