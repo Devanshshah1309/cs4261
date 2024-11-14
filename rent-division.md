@@ -16,15 +16,15 @@ And then, siimlar to auctions, our mechanism needs to determine 2 things:
 
 Note that we can’t just auction off the rooms one by one, because then players might not be truthful, and it might not lead to an envy-free allocation (and it wouldn’t even maximize utility).
 
-Also, note that the requirement that $$\sum_j v_{ij} = r$$ means that players can’t encode views such as “I prefer room 1, but can’t afford to pay more than $$500 for it”. And it also does not take into account that some players might have more disposable income than others, i.e,. some might be willing to pay more for their favorite rooms such that$$\sum\_j v\_{ij} > r\$$ (but this is not allowed).
+Also, note that the requirement that $$\sum_j v_{ij} = r$$ means that players can’t encode views such as “I prefer room 1, but can’t afford to pay more than $500 for it”. And it also does not take into account that some players might have more disposable income than others, i.e,. some might be willing to pay more for their favorite rooms such that $$\sum_j v_{ij} > r$$ (but this is not allowed).
 
 ## Envy-Free Outcome
 
 In this context of rent division, the definition of envy-free is basically the same, but it needs to take into account the price that each person is paying. That is, each player should think “I do not prefer your room for the price you’re being charged, to my room for the price i’m being charged.”
 
-Another easier way to look at it is that: you would not wnat to change your position for anyone else’s position (which is what envy-free means even in english).
+Another easier way to look at it is that: you would not want to change your position for anyone else’s position (which is what envy-free means even in english).
 
-More concretely, if the outcome is $$<\sigma, \vec p>$$ then, for all $$i, j \in N$$, we must have: $$v_{i \sigma(i)} - p_{\sigma(i)} \geq v_{ij} - p_j$$. Note that we assume players have a quasilinear utility function (i.e., getting $$x gives you the same marginal utility no matter how much$$you currently have).
+More concretely, if the outcome is $$<\sigma, \vec p>$$ then, for all $$i, j \in N$$, we must have: $$v_{i \sigma(i)} - p_{\sigma(i)} \geq v_{ij} - p_j$$. Note that we assume players have a quasilinear utility function (i.e., getting $x gives you the same marginal utility no matter how much money you currently have).
 
 ## EF Allocation
 
@@ -34,7 +34,7 @@ And it turns out that the answer is YES, and can be efficiently computed. But su
 
 In fact, this algorithm is an example of a provably fair solution — this means that given the outcome, if anyone objects, you can easily prove / convince him that he’s wrong (in an economic sense, he wouldn’t be better off swapping places with anyone else).
 
-Also, this mechanism guarantees efficiency in the economic sense (pareto optimality) — it is impossible to find another assignment of rooms to players that beenfits a roommate without making another player worse off.
+Also, this mechanism guarantees efficiency in the economic sense (Pareto optimality) — it is impossible to find another assignment of rooms to players that benefits a roommate without making another player worse off.
 
 The general framework for coming up with an EF allocation is a 2 step procedure:
 
@@ -55,11 +55,9 @@ Consider the following example:
 
 <figure><img src=".gitbook/assets/Screenshot_2024 10 28_at_6.00.55_PM.png" alt=""><figcaption></figcaption></figure>
 
+It’s pretty clear who gets what, but what if Alice pays the entire rent of $3000? This is still envy-free (since Alice wouldn't envy anyone because she has value = 0 for the other two rooms, and of course, Bob and Claire are more than happy with this since they don't have to pay for anything). But… it still feels like Bob and Claire are much happier than Alice in this scenario (both of them have utility = 2000, and Alice has utility = 0).
 
-
-It’s pretty clear who gets what, but what if Alice pays the entire rent of \$$3000? This is still envy-free. But… it feels like Bob and Claire are much happier than Alice in this scenario (both of them have utility = 2000, and Alice has utility = 0).
-
-(Note that at this point, the rooms have already been allocated, and we’re only trying to play around with how much rent each person pays to make it as “even” as possible.)
+Note that at this point, the rooms have already been allocated, and we’re only trying to play around with how much rent each person pays to make it as “even” as possible.
 
 So, we want the players’ utilities to be “close to each other”, while also satisfying EF (of course, we don’t want to lose the very nice EF property — we’re trying to make it even stronger). There are two similar ways we can quantify this:
 
@@ -69,7 +67,7 @@ So, we want the players’ utilities to be “close to each other”, while also
 Luckily for us…
 
 {% hint style="warning" %}
-**There is a unique maximin price vector, and it is also equitable**
+**Under EF-constraints, there is a unique maximin price vector, and it is also equitable**
 {% endhint %}
 
 which means that we don’t have to choose between the two notions of fairness — we can have both satisfied simultaneously!
