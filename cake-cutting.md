@@ -105,7 +105,7 @@ Assume for simplicit that $$n$$ is a power of 2 (this is only to make the analys
 
 The idea is to use divide-and-conquer. Instead of Dubins-Spanier, which only reduces the number of players by 1 in each round, we hope to split the agents into 2 groups in each round — one that values the left half more, and the rest who value the right half more. More precisely:
 
-1. Each agent marks the point that divides the cake into two halves of equal value, accorindg to his / her own opinion.
+1. Each agent marks the point that divides the cake into two halves of equal value, according to his / her own opinion.
 2. Let $$t$$ be mark number $$n/2$$ (median-ish) from the left.
 3. Recurse on $$[0, t]$$ with the left $$n/2$$ agents and on $$[t, 1]$$ with the right $$n/2$$ agents.
 4. Base case: When we’re down to one agent, that agent gets the whole cake.
@@ -116,21 +116,19 @@ The number of queries is clearly: $$Q(n) = 2Q(n/2) + O(n)$$, which yields $$Q(n)
 
 In each round, each agent submits their $$Cut_i(0, 0.5)$$ values to the algorithm. And then once the algorithm determines the pivot (about which it will recurse), then it asks for each agent’s $$Eval_i$$ values, depending on whether they’re in the left-set or the right-set (we can technically achieve proportionality even if we don’t call $$Eval_i$$ for all agents, but in Even-Paz, we do this because we need to _recurse_, which means they need to know how much they value this part of the cake). So, we do $$2n$$ queries per round. And we can draw the recursion tree which has height $$\log_2 n$$, and each level has cost $$2n$$. So, the total cost is $$\Theta(n \log n)$$
 
-Actually, we can pick any point to the be “pivot” here, not just the median point, and the algorithm will still be correct in that all players will get their proportional share. In fact, if we always pick the first (left-most) point to be the pivot, then this reduces to Dubins-Spanier algorithm, since in each round, the person with the left-most cut gets the cake! We use median to get the query complexity down to $$n \log n$$ but we could’ve also used any other (constant) fraction instead of $$\frac 1 2$$, e.g. even if we split the cake $$\frac 1 3 : \frac 2 3$$, we would still get a $$n \log n$$ query complexity.
+Actually, we can pick any point to the be “pivot” here, not just the median point (assuming we ask the agents to report the corresponding cut value), and the algorithm will still be correct in that all players will get their proportional share. In fact, if we always pick the first (left-most) point to be the pivot (when we've asked all of them to report how much of the cake is worth 1/n to them), then this reduces to Dubins-Spanier algorithm, since in each round, the person with the left-most cut gets the cake! We use median to get the query complexity down to $$n \log n$$ but we could’ve also used any other (constant) fraction instead of $$\frac 1 2$$, e.g. even if we split the cake $$\frac 1 3 : \frac 2 3$$, we would still get a $$n \log n$$ query complexity.
 
 The proof of proportionality is very similar to Dubins-Spanier — in each round, the left-set agents think that their side of the cake is worth more than the right side so they got the better end of the bargain, and vice-versa for the right-set. Each group of players is happy to be in whichever group they’re in, because they think there’s enough cake to be divided among the players in that group. And this holds true during each recursive step, so it holds true even when we reach the base-case of a single player. So, each player gets at least their proportional share.
 
-Implementation detail: If we’re left with two agents, and we recurse on the left-half first, then the left agent gets _exactly_ their proportional share, and the right agent gets _at least_ their prroportional share.
+Implementation detail: If we’re left with two agents, and we recurse on the left-half first, then the left agent gets _exactly_ their proportional share, and the right agent gets _at least_ their proportional share.
 
 <figure><img src=".gitbook/assets/Screenshot_2024 10 24_at_8.43.48_AM.png" alt=""><figcaption><p>Example run of Even-Paz. Notice that red and yellow get exactly what they think is a quarter of the cake, whereas blue and green get more than their quarter. Also notice that the order of yellow and green cuts swaps from round 1 to round 2 — this is possible (e.g. green might have valued the left half of the cake more than yellow, but with that removed, green’s new “midpoint” for the right half goes much further right).</p></figcaption></figure>
-
-
 
 {% hint style="warning" %}
 $$O(n \log n)$$ **is the optimal number of queries among ALL proportional protocols, **_**even if the allocation is not required to be connected**_**.**
 {% endhint %}
 
-And Even-Paz guaranteees connected pieces too, so it’s really amazing!
+And Even-Paz guarantees connected pieces too, so it’s really amazing!
 
 ## Envy-Freeness
 
@@ -158,7 +156,7 @@ Algorithm (variant of Dubins-Spanier):
 2. When the piece of cake to the left of the knife is worth $$\frac 1 3$$ to some agent, that agent shouts “stop”, and leaves the procedure with that piece. (Note that this remains $$\frac 1 3$$ _no matter_ how many agents we have!)
 3. Suppose the knife reaches the right end of the cake, but some cake is still unallocated:
    1. Case 1: There are still agents left. The remaining cake is given to one of them arbitrarily.
-   2. Case 2: There is no agent left. The remaining cake is given to the agent who recevied the last piece (to ensure connectivity).
+   2. Case 2: There is no agent left. The remaining cake is given to the agent who received the last piece (to ensure connectivity).
 
 Proof that any agent envies another by at most $$\frac 1 3$$:
 
@@ -175,7 +173,7 @@ In fact, none of the mechanisms we’ve seen so far (Dubins-Spanier, or Even-Paz
 
 Note that whenever we talk about “truthful”, we’re asking “is there ANY possibility that lying is better?” (including the case in which you know your opponent’s valuation / strategy / anything!)
 
-There is a pretty cool / simple truthful mechanism for when ALL agents have a piecewise uniform valuation, i.e., for each agent $$i$$, the denstiy function takes on the values only 0 or some $$s_i$$. Different agents can have different values for $$s_i$$ (that’s why it depends on $$i$$) but each agent can only have 1 non-zero value for $$s_i$$.
+There is a pretty cool / simple truthful mechanism for when ALL agents have a piecewise uniform valuation, i.e., for each agent $$i$$, the density function takes on the values only 0 or some $$s_i$$. Different agents can have different values for $$s_i$$ (that’s why it depends on $$i$$) but each agent can only have 1 non-zero value for $$s_i$$.
 
 <figure><img src=".gitbook/assets/image 2.png" alt=""><figcaption></figcaption></figure>
 
